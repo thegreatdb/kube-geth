@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: geth-svc
+spec:
+  type: NodePort
+  ports:
+    - name: jsonrpc
+      port: 8545
+      targetPort: 8545
+      protocol: TCP
+    - name: discoverytcp
+      port: 30303
+      targetPort: 30303
+      protocol: TCP
+    - name: discoveryudp
+      port: 30303
+      targetPort: 30303
+      protocol: UDP
+  selector:
+    app: geth

@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: geth
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: geth
+    spec:
+      containers:
+      - image: ethereum/client-go:release-1.6
+        name: geth
+        args: ["--fast", "--cache=512"]
+        volumeMounts:
+          - mountPath: /root
+            name: geth-data
+        resources:
+          requests:
+            memory: "1Gi"
+      restartPolicy: Always
+      volumes:
+        - name: geth-data
+          gcePersistentDisk:
+            pdName: geth-data
+            fsType: ext4
